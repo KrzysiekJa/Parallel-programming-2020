@@ -1,4 +1,4 @@
-# without  OPT
+## without  OPT
 
 czas standardowy = 0.023369
 czas CPU         = 0.018523
@@ -39,7 +39,7 @@ czas CPU:    0.000393
 
 
 
-# with OPT 03
+## with OPT 03
 
 czas standardowy = 0.020045
 czas CPU         = 0.016000
