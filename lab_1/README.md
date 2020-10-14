@@ -65,13 +65,13 @@ czas zegara: 0.000208,
 czas CPU:    0.000197
 
 
-czas standardowy = 0.024567
-czas CPU         = 0.019293
+czas standardowy = 0.024567,
+czas CPU         = 0.019293,
 czas zegarowy    = 0.041335
 
 Czas wykonania 100000 operacji wejscia/wyjscia: 
 Wynik operacji arytmetycznych: 1.210343
 Czas wykonania 100000 operacji arytmetycznych: 
 
-czas zegara: 0.000205
+czas zegara: 0.000205,
 czas CPU:    0.000202
