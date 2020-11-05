@@ -9,6 +9,7 @@ int zmienna_globalna=0;
 
 
 
+
 int main(){
   
   int pid, wynik, i;
@@ -18,9 +19,9 @@ int main(){
   
   for(i=0;i<1000;i++){
     
-    pid = fork(); 			
+	  pid = fork(); 			
     
-    if(pid==0){ 			
+	  if(pid==0){ 			
       
       zmienna_globalna++;
       
@@ -31,11 +32,11 @@ int main(){
 
       exit(0);
       
-    } else {					
+  	  } else {					
       
       wait(NULL);
       
-    }
+  	  }
   }
   
   t1 = czas_zegara() - t1;
