@@ -1,7 +1,7 @@
-#include<stdlib.h>
-#include<stdio.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
-#include<pthread.h>
+#include <pthread.h>
 
 
 struct struktura_t { 
@@ -76,7 +76,7 @@ int main(void){
 void * watek_klient (void * arg_wsk){
 
   int moj_id = * ((int *)arg_wsk);
-  int i, j, kran = 0, kufel = 0, result = 0;
+  int i, j, k, kran = 0, kufel = 0, result = 0;
   int ile_musze_wypic = 2;
 
   printf("\nKlient %d, wchodzi do pubu\n", moj_id); 
@@ -88,25 +88,19 @@ void * watek_klient (void * arg_wsk){
     printf("\nKlient %d, wybieram kufel\n", moj_id); 
 
 	
-	do{
-		pthread_mutex_lock(&mutex_kf);
-		if(l_kf > 0){
-			printf("\nSprawdzenie dostepnosci kufla.\n");
-			--l_kf;
-			kufel = 1;
-			printf("\nKufel zabrany.\n");
+	k = 0;
+	while(pthread_mutex_trylock(&pub_wsk.tab_kuf[k]) != 0){
+		++k;
+		if(k == l_kf){
+			k = 0;
 		}
-		pthread_mutex_unlock(&mutex_kf);
 		
-		if(kufel == 0){
-			//printf("\nJem orzeszki, klient nr %d.\n", moj_id);
-			usleep(300);
-		}
-	}while(kufel == 0);
+		printf("\nJem orzeszki, klient nr %d.\n", moj_id);
+		usleep(300);
+	}
+	kufel = k;
 
 
-
-    // printf("\nKlient %d, wybralem kufel %d\n", moj_id, kufel);
 	
     printf("\nKlient %d, wybieram kran\n", moj_id); 
 	
@@ -117,7 +111,7 @@ void * watek_klient (void * arg_wsk){
 			j = 0;
 		}
 		
-		//printf("\nJem orzeszki, klient nr %d.\n", moj_id);
+		printf("\nJem orzeszki, klient nr %d.\n", moj_id);
 		usleep(300);
 	}
 	kran = j;
@@ -133,20 +127,15 @@ void * watek_klient (void * arg_wsk){
     else if(kran==3)  printf("\nKlient %d, pije piwo Okocim\n", moj_id); 
     else if(kran==4)  printf("\nKlient %d, pije piwo Karlsberg\n", moj_id); 
 	
+	sleep(1);
 	pthread_mutex_unlock(&pub_wsk.tab_kran[j]);
 
 
 
-    sleep(1);
-
-	pthread_mutex_lock(&pub_wsk.tab_kuf[0]);
-	kufel = 0;
-	result = 0;
-	++l_kf;
 	printf("\nKufel oddany.\n");
 	pthread_mutex_unlock(&pub_wsk.tab_kuf[0]);
 
-    printf("\nKlient %d, odkladam kufel %d\n", moj_id, kufel); 
+    printf("\nKlient %d, odkladam kufel %d\n", moj_id, kufel);
 
   }
 

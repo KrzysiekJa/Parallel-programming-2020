@@ -23,8 +23,6 @@ int main(void){
 
   printf("\nLiczba kufli: "); scanf("%d", &l_kf);
 
-  //printf("\nLiczba kranow: "); scanf("%d", &l_kr);
-
 
 
   tab_klient = (pthread_t *) malloc(l_kl * sizeof(pthread_t));
@@ -66,7 +64,7 @@ void * watek_klient (void * arg_wsk){
   int i, j = 0, kufel = 0;
   int ile_musze_wypic = 2;
 
-  printf("\nKlient %d, wchodzi do pubu\n", moj_id); 
+  printf("Klient %d, wchodzi do pubu\n", moj_id); 
   
   
   
@@ -75,46 +73,43 @@ void * watek_klient (void * arg_wsk){
 	do{
 		pthread_mutex_lock(&mutex_kf);
 		if(l_kf > 0){
-			printf("\nSprawdzenie dostepnosci kufla.\n");
+			printf("Sprawdzenie dostepnosci kufla.\n");
 			--l_kf;
 			kufel = 1;
-			printf("\nKufel zabrany.\n");
+			printf("Kufel zabrany.\n");
 		}
 		pthread_mutex_unlock(&mutex_kf);
 		
 		if(kufel == 0){
-			printf("\nJem orzeszki, klient nr %d.\n", moj_id);
+			printf("Jem orzeszki, klient nr %d.\n", moj_id);
 			usleep(300);
 		}
 	}while(kufel == 0);
 
 
-    printf("\nKlient %d, wybieram kufel\n", moj_id);     
+    printf("Klient %d, wybieram kufel\n", moj_id);     
 	
 	pthread_mutex_lock(&mutex_kr);
-    printf("\nKlient %d, nalewam z kranu %d\n", moj_id, j); 
+    printf("Klient %d, nalewam z kranu %d\n", moj_id, j); 
     usleep(300);
 	pthread_mutex_unlock(&mutex_kr);
     
-    printf("\nKlient %d, pije\n", moj_id);
+    printf("Klient %d, pije\n", moj_id);
 	
     nanosleep((struct timespec[]){{0, 500000000L}}, NULL);
     
-    printf("\nKlient %d, odkladam kufel\n", moj_id);
+    printf("Klient %d, odkladam kufel\n", moj_id);
 	
 	
-    if(kufel == 1){
-    	pthread_mutex_lock(&mutex_kf);
-		kufel = 0;
-		++l_kf;
-		printf("\nKufel oddany.\n");
-		pthread_mutex_unlock(&mutex_kf);
-    }
+	pthread_mutex_lock(&mutex_kf);
+	kufel = 0;
+	++l_kf;
+	printf("Kufel oddany.\n");
+	pthread_mutex_unlock(&mutex_kf);
   }
   
   
-  printf("\nKlient %d, wychodzi z pubu\n", moj_id); 
+  printf("Klient %d, wychodzi z pubu\n", moj_id); 
     
   return(NULL);
 } 
-

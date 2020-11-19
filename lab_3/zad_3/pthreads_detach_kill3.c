@@ -1,12 +1,7 @@
-#include<stdlib.h>
-#include<stdio.h>
-#include<pthread.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <pthread.h>
 
-int zmienna_wspolna=0;
-
-#define WYMIAR 1000
-#define ROZMIAR WYMIAR*WYMIAR
-double a[ROZMIAR],b[ROZMIAR],c[ROZMIAR];
 
 
 
@@ -22,12 +17,23 @@ typedef struct{
 void * pthread_tast (void * arg_wsk)
 {
 	prism * wsk = (prism *) arg_wsk;
+	int zm1, zm2, zm3;
 	
 	printf("parametry: %d %d %d\n", wsk->a, wsk->b, wsk->c);
 	
-	wsk->a += 1;
-	wsk->b += 2;
-	wsk->c -= 1;
+	zm1 = wsk->a;
+	zm2 = wsk->b;
+	zm3 = wsk->c;
+	
+	zm1 += 1;
+	zm2 += 2;
+	zm3 -= 1;
+	
+	printf("parametry: %d %d %d\n", zm1, zm2, zm3);
+	
+	wsk->a = zm1;
+	wsk->b = zm2;
+	wsk->c = zm3;
 	
 	printf("parametry: %d %d %d\n", wsk->a, wsk->b, wsk->c);
 	
@@ -39,7 +45,6 @@ void * pthread_tast (void * arg_wsk)
 int main()
 {
 	pthread_t tid[2];
-	pthread_attr_t attr;
 	void *wynik = NULL;
 	prism prism;
 	prism.a = 1;
@@ -48,7 +53,7 @@ int main()
 
 
 
-	printf("watek glowny: tworzenie watku potomnego \n");
+	printf("watek glowny: tworzenie watkow potomnych \n");
 	printf("parametry: %d %d %d\n", prism.a, prism.b, prism.c);
 	
 	pthread_create(&tid[0], NULL, pthread_tast, (void *) & prism);
@@ -56,12 +61,11 @@ int main()
 	
 	
 	
-	pthread_join(tid[0], NULL);
-	pthread_join(tid[1], NULL);
+	pthread_join(tid[0], wynik);
+	pthread_join(tid[1], wynik);
 	
 	printf("parametry: %d %d %d\n", prism.a, prism.b, prism.c);
 	
-	pthread_detach(tid);
 	pthread_exit(NULL);
 }
 

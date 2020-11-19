@@ -1,6 +1,6 @@
-#include<stdlib.h>
-#include<stdio.h>
-#include<pthread.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <pthread.h>
 
 int zmienna_wspolna=0;
 
@@ -55,21 +55,20 @@ void * zadanie_watku (void * arg_wsk)
 
 
 
+
 int main()
 {
 	pthread_t tid;
 	pthread_attr_t attr;
-	void *wynik = NULL;
+	void * wynik = NULL;
 
 
-
-	//Watek przylaczalny
 	
 	printf("watek glowny: tworzenie watku potomnego nr 1\n");
 
 	pthread_create(&tid, NULL, zadanie_watku, NULL);
 
-	sleep(2); // czas na uruchomienie watku
+	sleep(2);
 
 	printf("\twatek glowny: wyslanie sygnalu zabicia watku\n");
 	pthread_cancel(tid);
@@ -90,7 +89,7 @@ int main()
 
 	pthread_create(&tid, NULL, zadanie_watku, NULL);
 
-	sleep(2); // czas na uruchomienie watku
+	sleep(2);
 
 	printf("\twatek glowny: odlaczenie watku potomnego\n");
 	pthread_detach(tid);
@@ -113,8 +112,6 @@ int main()
 	
 	
 	
-	//Watek odlaczony
-	
 	pthread_attr_init(&attr);
 
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
@@ -125,6 +122,6 @@ int main()
 	pthread_attr_destroy(&attr);
 
 	printf("\twatek glowny: koniec pracy, watek odlaczony pracuje dalej\n");
-	pthread_exit(NULL); // co stanie sie gdy uzyjemy exit(0)?
+	pthread_exit(NULL);
 }
 
